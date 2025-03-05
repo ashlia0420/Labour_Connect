@@ -1,0 +1,240 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Navbar */
+.navbar {
+    padding: 15px;
+}
+
+.navbar .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.navbar .nav-link {
+    color: white !important;
+    transition: 0.3s;
+}
+
+.navbar .nav-link:hover {
+    background-color: white;
+    color: #709775 !important;
+    border-radius: 5px;
+}
+
+/* Dark Mode Toggle */
+.darkModeToggle {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.darkModeToggle i {
+    font-size: 22px;
+    color: white;
+}
+
+.darkModeToggle:hover {
+    transform: scale(1.2);
+}
+
+/* Hero Section */
+.hero {
+    background: url('image.webp') no-repeat center center/cover;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #007bff; /* Matches About Us Page */
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Learn More Button */
+.learn-more-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #007bff; /* Matches About Us Button */
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.learn-more-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+/* About Us Section */
+.content {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.content h2 {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.content .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.content .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Form Styles (Login & Contact) */
+.login-form, .contact-form {
+    max-width: 600px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-form input, .contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact-form textarea {
+    height: 100px;
+}
+
+.login-form .btn, .contact-form .btn {
+    background-color: #4da8ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.login-form .btn:hover, .contact-form .btn:hover {
+    background-color:#4da8ff;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #2c2c2c;
+    color: white;
+}
+
+body.dark-mode .navbar {
+    background-color: #222 !important;
+}
+
+body.dark-mode .nav-link {
+    color: #ffffff !important;
+}
+
+body.dark-mode .hero h1 {
+    color:  #ffffff
+}
+
+body.dark-mode .learn-more-btn {
+    background-color: #4da8ff;
+}
+
+body.dark-mode .learn-more-btn:hover {
+    background-color: #007bff;
+}
+
+body.dark-mode .content {
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .content h2 {
+    color: #e0e0e0
+}
+
+body.dark-mode .content .btn {
+    background-color: #4da8ff;
+}
+
+body.dark-mode .content .btn:hover {
+    background-color: #007bff;
+}
+
+body.dark-mode .login-form, body.dark-mode .contact-form {
+    background: #333;
+    color: white;
+}
+
+body.dark-mode .login-form input, body.dark-mode .contact-form input, body.dark-mode .contact-form textarea {
+    background: #555;
+    border: 1px solid #777;
+    color: white;
+}
+
+body.dark-mode .login-form .btn, body.dark-mode .contact-form .btn {
+    background-color: #6a8d56;
+    color: white;
+}
+
+body.dark-mode .login-form .btn:hover, body.dark-mode .contact-form .btn:hover {
+    background-color: #4d6f39;
+}
+
+/* General Styling */
+
+
+

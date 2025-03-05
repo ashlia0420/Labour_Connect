@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - LabourConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">Labour Connect</a>
+            
+            <!-- Navbar Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <!-- Navbar Items -->
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav me-auto">
+                    <a class="nav-link active text-white" href="/labour">Home</a>
+                    <a class="nav-link text-white" href="/login">Login</a>
+                    <a class="nav-link text-white" href="/contact">Contact</a>
+                </div>
+    
+                <!-- Dark Mode Toggle Button -->
+                <button id="darkModeToggle" class="btn btn-outline-light ms-2">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Labour Image -->
+    <section class="hero-about text-center text-white d-flex align-items-center justify-content-center"
+        style="background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3') no-repeat center center/cover;
+               height: 50vh;
+               position: relative;
+               width: 100%;">
+        <div class="overlay" style="background: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px;">
+            <h1>About LabourConnect</h1>
+            <p>Connecting Talent with Opportunity</p>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="container my-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Our Mission</h2>
+                <p>
+                    At LabourConnect, we aim to empower skilled workers and employers by creating a seamless platform for hiring and job opportunities. 
+                    Whether you're a plumber, electrician, carpenter, or a student looking for part-time work, we’re here to help you find the perfect match 
+                    near your locality. Our mission is to foster fair opportunities, transparent communication, and secure transactions for all.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3" class="img-fluid rounded" alt="Worker fixing pipes">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Choose Us -->
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Why Choose LabourConnect?</h2>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <i class="fas fa-map-marker-alt fa-3x mb-3 text-primary"></i>
+                <h4>Location-Based Search</h4>
+                <p>Find workers or jobs near your area with our advanced geolocation feature.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-shield-alt fa-3x mb-3 text-primary"></i>
+                <h4>Verified Profiles</h4>
+                <p>We ensure trust by verifying worker and employer profiles for safety.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-comments fa-3x mb-3 text-primary"></i>
+                <h4>Direct Communication</h4>
+                <p>Chat directly with workers or employers to discuss job details.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+
+
+<section class="container my-5">
+    <h2 class="text-center mb-4">How It Works</h2>
+    <div class="row text-center">
+        <div class="col-md-3">
+            <i class="fas fa-user-plus fa-2x mb-3 text-primary"></i>
+            <h5>Step 1: Sign Up</h5>
+            <p>Create a profile as a worker or employer in minutes.</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-search fa-2x mb-3 text-primary"></i>
+            <h5>Step 2: Search</h5>
+            <p>Find jobs or workers based on location and skills.</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-handshake fa-2x mb-3 text-primary"></i>
+            <h5>Step 3: Connect</h5>
+            <p>Communicate and finalize job details directly.</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-money-check-alt fa-2x mb-3 text-primary"></i>
+            <h5>Step 4: Get Paid</h5>
+            <p>Secure payments through our platform.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Carousel -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">What Our Users Say</h2>
+    <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3" class="rounded-circle mb-3" style="width: 100px; height: 100px;" alt="User">
+                    <p>"LabourConnect helped me find a plumber within hours! The process was so easy and secure."</p>
+                    <h5>Ravi Sharma, Employer</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3" class="rounded-circle mb-3" style="width: 100px; height: 100px;" alt="User">
+                    <p>"I got consistent work as an electrician thanks to LabourConnect. Highly recommend!"</p>
+                    <h5>Anita Desai, Worker</h5>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+<!-- Newsletter Subscription -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Stay Updated</h2>
+    <form class="row g-3 justify-content-center">
+        <div class="col-md-6">
+            <input type="email" class="form-control" placeholder="Enter your email" required>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+        </div>
+    </form>
+</section>
+
+<!-- Call to Action -->
+<section class="container my-5 text-center">
+    <h3>Ready to Get Started?</h3>
+    <div class="mt-4">
+        <a href="/login" class="btn btn-primary me-2">Sign In</a>
+        <a href="/create" class="btn btn-outline-primary">Sign Up</a>
+    </div>
+</section>
+
+    <!-- Dark Mode Toggle Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+            if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+            darkModeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            });
+        </script>
+</body>
+</html>
