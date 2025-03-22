@@ -4,8 +4,10 @@ const path = require('path');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Job = require('./models/job');
+const Application = require('./models/application');
 const bcrypt=require('bcrypt')
 const methodOverride = require('method-override');
+
 
 
 app.use(methodOverride('_method'));
@@ -69,15 +71,15 @@ app.post('/login/rent', async (req, res) => {
 });
 
 
-    app.get('/login/rent:id', async (req, res) => {
+    app.get('/login/rent/:id', async (req, res) => {
         const id = req.params.id;
         const u1 = await User.findById(id);
         const jobs = await Job.find({});
-         // You need to determine which user to fetch (e.g., from session)
+        
         if (!u1) {
             return res.send("User not found");
         }
-        res.render('user/rent', { u1, jobs }); // ✅ Now passing u1
+        res.render('user/rent', { u1, jobs }); 
     });
     
 
@@ -101,16 +103,8 @@ app.post('/login/rent', async (req, res) => {
         }
         const job = new Job({ ...req.body });
         await job.save();
-        res.render('user/rent',{u1,jobs}); // ✅ Redirect without extra data
+        res.render('user/rent',{u1,jobs});
     });
-
-
-
-
-
-
-
-
 
 
 app.get('/login/:id',async(req,res)=>{
@@ -149,19 +143,40 @@ app.put('/login/:id',async(req,res)=>{
 //     res.redirect('/user/profile');
 //     // res.render('campground/show',{campgrounds})
 // })
+app.get('/login/:id/jobs/:jobId',async(req,res)=>{
+    const {id,jobId}=req.params
+    const u1=await User.findById(id)
+    const job=await Job.findById(jobId)
+    res.render('user/job',{u1,job})
+})
 
+app.delete('/login/:id/jobs/:jobId', async (req, res) => {
+    const { id, jobId } = req.params;
+    
 
-app.delete('/login/:id', async (req, res) => {
-    try {
-        const {id}=req.params
-        const u1=await User.findById(id)
-        console.log(u1)
-        jobs = await Job.findByIdAndDelete(req.params.id);
-        res.redirect('/user/profile'); // Reload the profile page after deletion
-    } catch (err) {
-        res.status(500).send("Error deleting job");
+    const u1 = await User.findById(id);
+    if (!u1) {
+        return res.status(404).send("User not found");
     }
+
+ 
+    const job = await Job.findByIdAndDelete(jobId);
+    if (!job) {
+        return res.status(404).send("Job not found");
+    }
+    res.redirect(`/login/${id}`);
 });
+
+
+    app.get('/login/rent/viewjobs/:jobid', async (req, res) => {
+        const { jobid } = req.params;
+      
+        const job = await Job.findById(jobid);
+        console.log(job)
+     res.render('user/viewjob', { job });
+    
+    });
+
 
 
 

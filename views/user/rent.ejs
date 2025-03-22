@@ -48,7 +48,12 @@
                         <h5 class="card-title">Plumber Needed</h5>
                         <p class="card-text">Location: Delhi | Pay: ₹500/day</p>
                         <p class="card-text text-muted">I needed a plumber</p>
-                        <a href="#" class="btn btn-primary">Apply Now</a>
+                        <span class="text-primary" style="cursor: pointer;" .href=''">
+                       
+                           <a href="#">
+                                <i class="fas fa-eye"></i> View Job
+                            </a>
+                            </span>
                     </div>
                 </div>
             </div>
@@ -58,7 +63,13 @@
                         <h5 class="card-title">Electrician for Wiring</h5>
                         <p class="card-text">Location: Mumbai | Pay: ₹600/day</p>
                         <p class="card-text text-muted">I needed a electrician</p>
-                        <a href="#" class="btn btn-primary">Apply Now</a>
+                        <span class="text-primary" style="cursor: pointer;" .href=''">
+                       
+                           
+                            <a href="#">
+                                <i class="fas fa-eye"></i> View Job
+                            </a>
+                            </span>
                     </div>
                 </div>
             </div>
@@ -69,7 +80,12 @@
                             <h5 class="card-title">Needed : <%= job.title %></h5>
                             <p class="card-text">Location: <%=job.location %> | Pay: ₹<%= job.salary %> /day</p>
                             <p class="card-text text-muted"><%= job.description %></p>
-                            <a href="#" class="btn btn-primary">Apply Now</a>
+                          
+                       
+                                <a href="/login/rent/viewjobs/<%= job._id %>">
+                                    <i class="fas fa-eye"></i> View Job
+                                </a>
+                           
                         </div>
                     </div>
                 </div>
