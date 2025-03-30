@@ -18,8 +18,20 @@ const JobSchema = new mongoose.Schema({
     location: {
         type: String,
         required: true
-    },      
-
+    },  
+    date:{
+        type: Date,
+        default: Date.now
+    },
+    postedOn:{
+        type: Date,
+        default: Date.now
+    },
+    filled:{
+        type:Boolean,
+        default:false
+    }
+        
 })
 const Job = mongoose.model('Job', JobSchema);
 module.exports = Job;

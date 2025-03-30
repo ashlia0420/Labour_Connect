@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Jobs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <div class="text-center mb-4">
+        <h1>Welcome, <%= u1.username %>!</h1>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-dark">
+            <h2>Pending Applications</h2>
+        </div>
+        <div class="card-body">
+            <% if (pending.length > 0) { %>
+                <ul class="list-group">
+                    <% pending.forEach(application => { %>
+                        <li class="list-group-item">
+                            <strong>Job:</strong> <%= application.jobTitle %> <br>
+                            <strong>Status:</strong> <span class="badge bg-warning text-dark"><%= application.status %></span>
+                            <br> <strong>Applied On</strong> <%= application.appliedAt%>
+                            <a href="/rent/<%= u1._id %>/jobs/<%= application._id %>">
+                                <i class="fas fa-eye"></i> View Job
+                            </a>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <p class="text-muted">No pending applications.</p>
+            <% } %>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h2>Accepted Applications</h2>
+        </div>
+        <div class="card-body">
+            <% if (accepted.length > 0) { %>
+                <ul class="list-group">
+                    <% accepted.forEach(application => { %>
+                        <li class="list-group-item">
+                            <strong>Job:</strong> <%= application.jobTitle %> <br>
+                            <strong>Status:</strong> <span class="badge bg-success"><%= application.status %></span>
+                       
+                            <br> <strong>Applied On</strong> <%= application.appliedAt%>
+                            <a href="/rent/<%= u1._id %>/jobs/<%= application._id %>">
+                                <i class="fas fa-eye"></i> View Job
+                            </a>
+                         
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <p class="text-muted">No accepted applications.</p>
+            <% } %>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

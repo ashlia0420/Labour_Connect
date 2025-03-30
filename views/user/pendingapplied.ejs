@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Application Details</h2>
+        
+        <div class="text-center mb-4">
+            <h3><%= job.title %></h3>
+            <p><%= job.description %></p>
+            <p><%= job.postedBy %></p>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th>Full Name</th>
+                    <td><%= application.fullname %></td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td><%= application.username %></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><%= application.email %></td>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <td><%= application.location %></td>
+                </tr>
+                <tr>
+                    <th>Skills</th>
+                    <td><%= application.skills.join(', ') %></td>
+                </tr>
+                <tr>
+                    <th>Experience</th>
+                    <td><%= application.experience %> years</td>
+                </tr>
+                <tr>
+                    <th>Availability</th>
+                    <td><%= application.availability %></td>
+                </tr>
+                <tr>
+                    <th>Expected Salary</th>
+                    <td>$<%= application.salary %></td>
+                </tr>
+                <tr>
+                    <th>Languages</th>
+                    <td><%= application.languages.join(', ') %></td>
+                </tr>
+                <tr>
+                    <th>Applied At</th>
+                    <td><%= new Date(application.appliedAt).toLocaleString() %></td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>
+                        <span class="badge bg-<%= application.status === 'accepted' ? 'success' : application.status === 'rejected' ? 'danger' : application.status === 'finished' ? 'primary' : 'warning' %>"><%= application.status %></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <% if (application.status === 'accepted') { %>
+                <form action="/rent/<%= u1._id %>/jobs/<%= application._id %>?_method=PUT" method="POST">
+                    <input type="hidden" name="status" value="finished">
+                    <button type="submit" class="btn btn-success">Work Finished</button>
+                </form>
+            <% } %>
+            <a href="/applications" class="btn btn-primary">Back to Applications</a>
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+
