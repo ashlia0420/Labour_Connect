@@ -31,8 +31,12 @@
                             <p><strong>Description:</strong> <%= u1.description %></p>
                             <div>
                                 <strong>Rating:</strong>
+                                <%let rating=0 %>
+                                <%for(review of reviews){ %>
+                                        <% rating=rating+review.rating %>
+                                    <% } %>
                                 <% for (let i = 0; i < 5; i++) { %>
-                                    <% if (i < u1.rating) { %>
+                                    <% if (i < rating) { %>
                                         <span class="text-warning"><i class="fas fa-star"></i></span>
                                     <% } else { %>
                                         <span class="text-muted"><i class="fas fa-star"></i></span>

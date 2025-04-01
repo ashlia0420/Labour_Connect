@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const User = require('./models/user');
 const Job = require('./models/job');
 const Application = require('./models/application');
+const Review = require('./models/review');
 const bcrypt=require('bcrypt')
 const methodOverride = require('method-override');
 const session = require('express-session');
@@ -63,7 +64,7 @@ app.post('/login/rent', async (req, res) => {
     const u1 = await User.findOne({ username });
 
     if (!u1) {
-        return res.send('Invalid username or password');
+        return res.send('Invalid email or password');
     }
 
     const validUser = await bcrypt.compare(password, u1.password);
@@ -128,14 +129,19 @@ app.get('/login/rent', async (req, res) => {
 app.get('/login/:id',async(req,res)=>{
     const {id}=req.params
     const u1=await User.findById(id)
+    const reviews=await Review.find({workerUsername:u1.username})
     // console.log(u1)
     const jobs=await Job.find({postedBy:u1.username})
     // console.log(jobs)
     if(!u1.description){
         res.render('user/setup',{u1})
     }
-    else{
-        res.render('user/profile',{u1,jobs})
+    else if(u1.role==='worker'){
+        
+        res.render('user/worker',{u1,jobs,reviews})
+    }
+    else {
+        res.render('user/profile',{u1,jobs,reviews})
     }
 
 })
@@ -289,9 +295,182 @@ app.delete('/login/:id/jobs/:jobId', async (req, res) => {
         const { id, jobid } = req.params;
         const u1 = await User.findById(id);
         const job = await Job.findById(jobid);
-        const applications=await Application.find({jobid:jobid,status:{ $in: ['accepted', 'finished'] } });
+        const applications=await Application.find({jobid:jobid,status:{ $in: ['accepted', 'finished','payed'] } });
         res.render('user/working',{u1,job,applications})
      });
+
+    //  app.put('/update-payment/:applid', async (req, res) => {
+    //     const { applid } = req.params;
+    
+    //     try {
+    //         const application = await Application.findByIdAndUpdate(
+    //             applid,
+    //             { status: 'payed' },
+    //             { new: true }
+    //         );
+    
+    //         if (!application) {
+    //             return res.status(404).json({ error: "Application not found" });
+    //         }
+    
+    //         if (application.status === 'payed') {
+    //             return res.render('user/reviewjob', { application });
+    //         }
+    
+    //         const job = await Job.findById(application.jobid);
+    //         if (!job) {
+    //             return res.status(404).json({ error: "Job not found" });
+    //         }
+    
+    //         // Send a success response if everything is fine
+    //         res.json({ message: "Payment updated successfully", application, job });
+    
+    //     } catch (error) {
+    //         console.error(error);
+    //         res.status(500).json({ error: "Internal server error" });
+    //     }
+    // });
+    app.put('/update-payment/:applid', async (req, res) => {
+        const { applid } = req.params;
+    
+        try {
+            const application = await Application.findByIdAndUpdate(
+                applid,
+                { status: 'payed' },
+                { new: true }
+            );
+    
+            if (!application) {
+                return res.status(404).json({ error: "Application not found" });
+            }
+    
+            const job = await Job.findById(application.jobid);
+            // if (!job) {
+            //     return res.status(404).json({ error: "Job not found" });
+            // }
+    
+            // ✅ Send a redirect URL in JSON response
+            res.json({ 
+                success: true, 
+                message: "Payment updated successfully", 
+                redirectUrl: `/review-job/${job._id}/of/${application._id}`
+            });
+    
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    });
+    
+
+    
+        //     res.json({ success: true, message: "Payment successful!", redirectUrl: `/review-job/${job._id}` });
+        // } catch (error) {
+        //     res.status(500).json({ error: "Server error" });
+        // }
+    
+    
+    
+    app.get('/review-job/:jobid/of/:applid', async (req, res) => {
+        const { jobid,applid } = req.params;
+    
+        try {
+            const job = await Job.findById(jobid);
+            const application = await Application.findById(applid);
+            if (!job) {
+                return res.status(404).send("Job not found");
+            }
+            if (!application) {
+                return res.status(404).send("application not found");
+            }
+    
+            res.render('user/reviewjob', { job,application }); // Ensure 'reviewjob.ejs' exists
+        } catch (error) {
+            res.status(500).send("Server error");
+        }
+    });
+
+// POST route to handle the review submission
+app.post('/submit-review/:jobId', async (req, res) => {
+    try {
+        // Extract data from the form submission
+        const { review, rating, workerUsername, reviewerUsername } = req.body;
+        let jobId = req.params.jobId;
+
+        // Validate the data
+        if (!review || !rating || !workerUsername || !reviewerUsername) {
+            return res.status(400).send('All fields are required.');
+        }
+
+        // Create a new review document
+        const newReview = new Review({
+            jobId,
+            workerUsername,
+            reviewerUsername,
+            reviewText: review,
+            rating
+        });
+
+        // Save the review to the database
+        await newReview.save();
+        let jobid=jobId;
+        // Find the application associated with the job and worker
+        const application = await Application.findOne({
+            jobid,
+            username: workerUsername // Assuming workerUsername identifies the application
+        });
+
+        if (!application) {
+            return res.status(404).send('Application not found.');
+        }
+
+        // Update the application status to 'reviewed'
+        application.status = 'reviewed';
+        await application.save();
+        const user = await User.findOne({ username: reviewerUsername }); // Assuming reviewerUsername refers to the logged-in user
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        // Redirect to the profile page of the reviewer
+        res.redirect(`/login/${user._id}`);
+      
+        // Or redirect: res.redirect('/job-details/' + jobId);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error submitting review or updating application status.');
+    }
+});
+
+     app.get('/chating/:id',async(req,res)=>{
+        const {id}=req.params
+        const u1=await User.findById(id)
+        const users=await User.find({})
+        res.render('user/renting',{users,u1})   
+     })
+    //     app.get("/chat/:userId",async (req, res) => {
+    //     const userId = req.params.userId;
+    //     const u1= await User.findById(userId);
+    //     res.render("user/chat", {u1});
+        
+    //      // Render chat.ejs or chat.html
+    // });
+    app.get("/chat/:id/:userId", async (req, res) => {
+        if (!req.session.user) {
+            return res.redirect('/login'); // Ensure user is logged in
+        }
+    
+        const { id,userId } = req.params;
+        const sender = await User.findById(id); // The logged-in user
+        const receiver = await User.findById(userId); // The user being chatted with
+        if (!receiver) {
+            return res.status(404).send("User not found");
+        }
+    
+        res.render("user/chat", { sender, receiver });
+    });
+    
+    
 
 app.listen(3000,()=>{
     console.log('listening on port 3000')

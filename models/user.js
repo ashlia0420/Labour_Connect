@@ -29,11 +29,16 @@ const UserSchema = new mongoose.Schema({
     job:{
         type: String
     },
+    rating:{
+        type: Number,
+        default: 0
+    },
     location:{
         type: String
     },
     skills: [String],
     availability: String,
+
 })
 const User = mongoose.model('User', UserSchema);
 module.exports = User;

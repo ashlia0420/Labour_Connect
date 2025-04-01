@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabourConnect Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0"><%= receiver.fullname %></h2>
+            </div>
+            <div class="card-body">
+                <div id="chatbox" class="border p-3 bg-white" style="height: 300px; overflow-y: scroll;"></div>
+                <div class="input-group mt-3">
+                    <input type="text" id="messageInput" class="form-control" placeholder="Type a message..." />
+                    <button id="sendButton" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Get sender and receiver IDs from EJS
+        const currentUserId = "<%= sender._id %>";
+        const chatPartnerId = "<%= receiver._id %>";
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where, and, or, serverTimestamp } 
+            from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkYBiypeLPbG7dfL1wGyW61SiL0uWYXMU",
+            authDomain: "labourconnect-dfc37.firebaseapp.com",
+            projectId: "labourconnect-dfc37",
+            storageBucket: "labourconnect-dfc37.appspot.com",
+            messagingSenderId: "1049847236788",
+            appId: "1:1049847236788:web:fdd2a3c9df62d45dd62fe1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        if (!currentUserId || !chatPartnerId) {
+            console.error("Chat IDs not found!");
+        } else {
+            const chatBox = document.getElementById("chatbox");
+            const messageInput = document.getElementById("messageInput");
+            const sendButton = document.getElementById("sendButton");
+
+            async function sendMessage() {
+                const message = messageInput.value.trim();
+                if (!message) return;
+
+                console.log("Sending message from:", currentUserId, "to:", chatPartnerId);
+
+                await addDoc(collection(db, "messages"), {
+                    senderId: currentUserId,
+                    receiverId: chatPartnerId,
+                    text: message,
+                    timestamp: serverTimestamp()
+                });
+
+                messageInput.value = "";
+            }
+
+            sendButton.addEventListener("click", sendMessage);
+            messageInput.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") sendMessage();
+            });
+
+            const messagesQuery = query(
+                collection(db, "messages"),
+                or(
+                    and(where("senderId", "==", currentUserId), where("receiverId", "==", chatPartnerId)),
+                    and(where("senderId", "==", chatPartnerId), where("receiverId", "==", currentUserId))
+                ),
+                orderBy("timestamp")
+            );
+
+            onSnapshot(messagesQuery, (snapshot) => {
+                chatBox.innerHTML = "";
+                snapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    const msgElement = document.createElement("p");
+                    
+                    msgElement.classList.add("mb-1", "p-2", "rounded", "w-50");
+                    msgElement.style.maxWidth = "60%";
+                    msgElement.style.wordBreak = "break-word";
+                    
+                    if (msg.senderId === currentUserId) {
+                        msgElement.style.backgroundColor = "#d1e7dd";
+                        msgElement.classList.add("ms-auto", "text-end");
+                        msgElement.textContent = `You: ${msg.text}`;
+                    } else {
+                        msgElement.style.backgroundColor = "#f8d7da";
+                        msgElement.classList.add("me-auto", "text-start");
+                        msgElement.textContent = `Them: ${msg.text}`;
+                    }
+
+                    chatBox.appendChild(msgElement);
+                });
+
+                setTimeout(() => {
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 100);
+            }, (error) => {
+                console.error("Error fetching messages:", error);
+            });
+        }
+    </script>
+</body>
+</html>
+
