@@ -243,10 +243,14 @@ app.delete('/login/:id/jobs/:jobId', async (req, res) => {
     );
     app.get('/login/:id/application/:Applid', async (req, res) => {
         const { id,Applid } = req.params;
-        const applicant = await Application.findById(Applid);
-        const u1=await User.findOne({username:applicant.username})
-        const u2=await User.findById(id)
-        res.render('user/selectapplicant', { applicant,u1,u2 });
+        const application = await Application.findById(Applid);
+        const u1=await User.findOne({username:application.username})
+        const reviews=await Review.find({workerUsername:u1.username})
+        const jobs=await Job.find({postedBy:u1.username});
+        res.render('user/worker',{u1,jobs,reviews})
+        // const u2=await User.findById(id)
+        // const reviews=await Review.find({workerUsername:u1.username})
+        // res.render('user/selectapplicant', { application,u1,u2 });
     });
     app.put('/login/:id/application/:Applid', async (req, res) => {
         const { id,Applid } = req.params;
@@ -471,7 +475,9 @@ app.post('/submit-review/:jobId', async (req, res) => {
     });
     
     
-
+app.use((req,res)=>{
+    res.status(404).send("NOT FOUND")
+})
 app.listen(3000,()=>{
     console.log('listening on port 3000')
 })
